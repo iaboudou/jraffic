@@ -7,8 +7,8 @@ import java.util.function.Predicate;
 
 public class CarMovement {
 
-    public static final double CENTER_X = 500;
-    public static final double CENTER_Y = 350;
+    public static final double CENTER_X = 400;
+    public static final double CENTER_Y = 400;
     public static final double LANE_WIDTH = 70;
     public static final double INTERSECTION_HALF = 70;
     public static final double CAR_LENGTH = 26;
