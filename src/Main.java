@@ -1,24 +1,17 @@
-import javafx.application.Application;
-import javafx.scene.layout.Pane;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 
+import javafx.application.Application;
+import javafx.stage.Stage;
+import simulation.Simulation;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        Pane root = new Pane();
-
-        Scene scene = new Scene(root, 900, 900);
-
-        stage.setTitle("JTraffic");
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
+        Simulation simulation = new Simulation();
+        simulation.start(stage);
     }
 
     public static void main(String[] args) {
-        Application.launch();
+        launch(args);
     }
 }
