@@ -6,21 +6,6 @@ public enum Direction {
     WEST,
     EAST;
 
-    public Direction opposite() {
-        switch (this) {
-            case NORTH:
-                return SOUTH;
-            case SOUTH:
-                return NORTH;
-            case WEST:
-                return EAST;
-            case EAST:
-                return WEST;
-            default:
-                throw new IllegalStateException();
-        }
-    }
-
     public double dx() {
         switch (this) {
             case WEST:

@@ -98,34 +98,6 @@ public class CarMovement {
         return cars.size();
     }
 
-    public void clear() {
-        cars.clear();
-    }
-
-    public int laneQueueLength(Direction direction) {
-        int count = 0;
-        for (Car car : cars) {
-            if (car.getDirection() == direction && car.getPhase() == Car.Phase.APPROACHING) {
-                count++;
-            }
-        }
-        return count;
-    }
-
-    public int laneCarCount(Direction direction) {
-        int count = 0;
-        for (Car car : cars) {
-            if (car.getDirection() == direction) {
-                count++;
-            }
-        }
-        return count;
-    }
-
-    public int laneCapacity() {
-        return (int) Math.floor(LANE_LENGTH / (CAR_LENGTH + SAFETY_GAP));
-    }
-
     public RoutePath path(Direction direction, Car.Route route) {
         return paths[index(direction, route)];
     }
