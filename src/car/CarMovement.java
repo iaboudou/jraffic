@@ -7,10 +7,10 @@ import java.util.function.Predicate;
 
 public class CarMovement {
 
-    public static final double CENTER_X = 450;
-    public static final double CENTER_Y = 450;
-    public static final double LANE_WIDTH = 40;
-    public static final double INTERSECTION_HALF = LANE_WIDTH;
+    public static final double CENTER_X = 500;
+    public static final double CENTER_Y = 350;
+    public static final double LANE_WIDTH = 70;
+    public static final double INTERSECTION_HALF = 70;
     public static final double CAR_LENGTH = 26;
     public static final double CAR_WIDTH = 16;
     public static final double SAFETY_GAP = 20;
@@ -142,7 +142,17 @@ public class CarMovement {
     }
 
     private boolean canPass(Car car, Predicate<Direction> greenLight) {
-        return greenLight == null || greenLight.test(car.getDirection());
+        if (greenLight != null && !greenLight.test(car.getDirection())) {
+            return false;
+        }
+        for (Car other : cars) {
+            if (other != car && other.getPhase() == Car.Phase.IN_INTERSECTION) {
+                if (other.getDirection() != car.getDirection()) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     private void moveCar(Car car, double distance, RoutePath path) {
@@ -262,9 +272,6 @@ public class CarMovement {
             if (route == Car.Route.STRAIGHT) {
                 return midpoint();
             }
-            if (route == Car.Route.RIGHT) {
-                return innerCorner();
-            }
             return new double[] {
                     entryX + ax * (INTERSECTION_HALF - LANE_WIDTH / 2),
                     entryY + ay * (INTERSECTION_HALF - LANE_WIDTH / 2)
@@ -274,9 +281,6 @@ public class CarMovement {
         private double[] secondControlPoint(Car.Route route) {
             if (route == Car.Route.STRAIGHT) {
                 return midpoint();
-            }
-            if (route == Car.Route.RIGHT) {
-                return innerCorner();
             }
             return new double[] {
                     exitX - ex * (INTERSECTION_HALF - LANE_WIDTH / 2),
@@ -288,11 +292,11 @@ public class CarMovement {
             return new double[] {(entryX + exitX) / 2, (entryY + exitY) / 2};
         }
 
-        private double[] innerCorner() {
-            double x = Math.abs(entryX - CENTER_X) > Math.abs(exitX - CENTER_X) ? entryX : exitX;
-            double y = Math.abs(entryY - CENTER_Y) > Math.abs(exitY - CENTER_Y) ? entryY : exitY;
-            return new double[] {x, y};
-        }
+        // private double[] innerCorner() {
+        //     double x = Math.abs(entryX - CENTER_X) > Math.abs(exitX - CENTER_X) ? entryX : exitX;
+        //     double y = Math.abs(entryY - CENTER_Y) > Math.abs(exitY - CENTER_Y) ? entryY : exitY;
+        //     return new double[] {x, y};
+        // }
 
         private void buildCurve(double c1x, double c1y, double c2x, double c2y) {
             for (int i = 0; i <= CURVE_STEPS; i++) {
