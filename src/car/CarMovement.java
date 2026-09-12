@@ -16,8 +16,7 @@ public class CarMovement {
     public static final double SAFETY_GAP = 20;
     public static final double LANE_LENGTH = 340;
     public static final double EXIT_LENGTH = 620;
-    public static final double MIN_SPEED = 90;
-    public static final double MAX_SPEED = 140;
+    public static final double CAR_SPEED = 120.0;
 
     private static final int CURVE_STEPS = 60;
     private static final double STOP_MARGIN = 0.1;
@@ -48,8 +47,7 @@ public class CarMovement {
             }
         }
 
-        double speed = MIN_SPEED + Math.random() * (MAX_SPEED - MIN_SPEED);
-        Car car = new Car(direction, route, speed);
+        Car car = new Car(direction, route, CAR_SPEED);
         cars.add(car);
         updateCarPosition(car);
         return car;
