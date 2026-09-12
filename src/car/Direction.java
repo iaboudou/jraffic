@@ -3,7 +3,6 @@ package car;
 public enum Direction {
     NORTH,
     SOUTH,
-<<<<<<< HEAD
     WEST,
     EAST;
 
@@ -44,8 +43,3 @@ public enum Direction {
         }
     }
 }
-=======
-    EAST,
-    WEST
-}
->>>>>>> 04f7102be3d5b428df3014300e5e67943aabba3f

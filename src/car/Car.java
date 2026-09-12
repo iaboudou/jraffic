@@ -1,6 +1,5 @@
 package car;
 
-<<<<<<< HEAD
 public class Car {
 
     public enum Route {
@@ -116,13 +115,3 @@ public class Car {
         this.phase = phase;
     }
 }
-=======
-import javafx.scene.paint.Color;
-
-public class Car {
-
-    //private Direction direction;
-    //private CarState state;  hado derthom ghir 3la hsab test bach n9der ndir draw l car
-
-}
->>>>>>> 04f7102be3d5b428df3014300e5e67943aabba3f
