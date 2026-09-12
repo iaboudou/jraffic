@@ -36,6 +36,10 @@ public class Simulation {
     }
 
     private void update() {
+
+        //intersection.update();
+        //car.update();
+
     }
 
     public SimulationPanel getPanel() {
