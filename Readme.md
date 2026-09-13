@@ -55,7 +55,7 @@ jraffic
 ### Run
 
 ```bash
-chmod +x app
+chmod +x app.sh
 ./app.sh install
 ./app.sh run
 ```
