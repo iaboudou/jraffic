@@ -16,10 +16,10 @@ public class CarMovement {
     public static final double SAFETY_GAP = 20;
     public static final double LANE_LENGTH = 340;
     public static final double EXIT_LENGTH = 620;
-    public static final double CAR_SPEED = 120.0;
+    public static final double CAR_SPEED = 80.0;
 
     private static final int CURVE_STEPS = 60;
-    private static final double STOP_MARGIN = 0.1;
+    private static final double STOP_MARGIN = CAR_LENGTH / 2 + 4;
 
     private final List<Car> cars = new ArrayList<>();
     private final RoutePath[] paths;
@@ -185,7 +185,7 @@ public class CarMovement {
         public final double ay;
         public final double ex;
         public final double ey;
-        public final double stopS = LANE_LENGTH;
+        public final double stopS = LANE_LENGTH - 7;
         public final double exitS;
         public final double totalS;
 

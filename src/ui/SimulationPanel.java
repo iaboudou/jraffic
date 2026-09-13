@@ -7,18 +7,20 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import java.util.List;
+import java.util.Collections;
 
 public class SimulationPanel extends Pane {
 
-    private final double WIDTH = 1000;
-    private final double HEIGHT = 700;
+    private final double WIDTH = 800;
+    private final double HEIGHT = 800;
     private final double ROAD_WIDTH = 140;
     private final double SIDEWALK_WIDTH = 10;
 
     private final Canvas canvas;
     private final GraphicsContext gc;
     private final Renderer renderer;
-    private final Car car;
+    private List<Car> cars = Collections.emptyList();
 
     public SimulationPanel() {
         setPrefSize(WIDTH, HEIGHT);
@@ -27,12 +29,19 @@ public class SimulationPanel extends Pane {
         gc = canvas.getGraphicsContext2D();
         renderer = new Renderer();
 
-    //    car = new Car(470, 200, 2, Direction.SOUTH, CarState.MOVING, Color.AZURE);
-
         getChildren().add(canvas);
 
+        draw();
+    }
+
+    public void setCars(List<Car> cars) {
+        this.cars = cars;
+    }
+    
+    public void draw() {
+        gc.clearRect(0, 0, WIDTH, HEIGHT);
         drawMap();
-        drawCar();
+        drawCars();
     }
 
     private void drawMap() {
@@ -90,29 +99,42 @@ public class SimulationPanel extends Pane {
         gc.strokeLine(centerX + ROAD_WIDTH / 2, centerY - ROAD_WIDTH / 2, centerX + ROAD_WIDTH / 2, centerY);
     }
 
+    private intersection.Intersection intersection;
+
+    public void setIntersection(intersection.Intersection intersection) {
+        this.intersection = intersection;
+    }
+
     private void drawTrafficLights() {
         double centerX = WIDTH / 2;
         double centerY = HEIGHT / 2;
 
-        drawTrafficLight(centerX - ROAD_WIDTH / 2 - 25,centerY - ROAD_WIDTH / 2 - 50);
-        drawTrafficLight(centerX + ROAD_WIDTH / 2 + 10,centerY - ROAD_WIDTH / 2 - 50);
-        drawTrafficLight(centerX - ROAD_WIDTH / 2 - 25,centerY + ROAD_WIDTH / 2 + 10);
-        drawTrafficLight(centerX + ROAD_WIDTH / 2 + 10,centerY + ROAD_WIDTH / 2 + 10);
+        boolean northGreen = intersection != null && intersection.isGreen(Direction.NORTH);
+        boolean eastGreen = intersection != null && intersection.isGreen(Direction.EAST);
+        boolean southGreen = intersection != null && intersection.isGreen(Direction.SOUTH);
+        boolean westGreen = intersection != null && intersection.isGreen(Direction.WEST);
+
+        drawTrafficLight(centerX - ROAD_WIDTH / 2 - 25, centerY - ROAD_WIDTH / 2 - 50, northGreen);
+        drawTrafficLight(centerX + ROAD_WIDTH / 2 + 10, centerY - ROAD_WIDTH / 2 - 50, eastGreen);
+        drawTrafficLight(centerX + ROAD_WIDTH / 2 + 10, centerY + ROAD_WIDTH / 2 + 10, southGreen);
+        drawTrafficLight(centerX - ROAD_WIDTH / 2 - 25, centerY + ROAD_WIDTH / 2 + 10, westGreen);
     }
 
-    private void drawTrafficLight(double x, double y) {
+    private void drawTrafficLight(double x, double y, boolean isGreen) {
         gc.setFill(Color.BLACK);
         gc.fillRect(x, y, 18, 40);
 
-        gc.setFill(Color.RED);
+        gc.setFill(isGreen ? Color.DARKRED : Color.RED);
         gc.fillOval(x + 4, y + 4, 10, 10);
 
-        gc.setFill(Color.DARKGREEN);
+        gc.setFill(isGreen ? Color.LIMEGREEN : Color.DARKGREEN);
         gc.fillOval(x + 4, y + 26, 10, 10);
     }
 
-    private void drawCar() {
-        renderer.drawCar(gc, car);
+    private void drawCars() {
+        for (Car car : cars) {
+            renderer.drawCar(gc, car);
+        }
     }
 }
 

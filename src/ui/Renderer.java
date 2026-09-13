@@ -3,26 +3,31 @@ package ui;
 import car.Car;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.transform.Rotate;
 
 public class Renderer {
 
     public void drawCar(GraphicsContext gc, Car car) {
-        double x = 100; //car.getX();
-        double y = 100; //car.getY();
+        double x = car.getX();
+        double y = car.getY();
 
-        gc.setFill(Color.AZURE); // hna ghadi nrej3ohcolor random 3la 7sab subject
-        gc.fillRoundRect(x, y, 28, 50, 7, 7);
+        gc.save();
+        
+        Rotate r = new Rotate(car.getHeadingDegrees(), x, y);
+        gc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
+
+        double width = 16;
+        double length = 26;
+        double drawX = x - length / 2;
+        double drawY = y - width / 2;
+
+        gc.setFill(Color.web(car.getColor()));
+        gc.fillRoundRect(drawX, drawY, length, width, 4, 4);
 
         gc.setFill(Color.LIGHTBLUE);
-        gc.fillRect(x + 4, y + 9, 20, 12);
-        gc.fillRect(x + 4, y + 29, 20, 12);
+        gc.fillRect(drawX + 6, drawY + 2, 4, width - 4);
+        gc.fillRect(drawX + length - 10, drawY + 2, 4, width - 4);
 
-        gc.setFill(Color.YELLOW);
-        gc.fillOval(x + 3, y + 1, 7, 7);
-        gc.fillOval(x + 18, y + 1, 7, 7);
-
-        gc.setFill(Color.RED);
-        gc.fillOval(x + 3, y + 43, 7, 5);
-        gc.fillOval(x + 18, y + 43, 7, 5);
+        gc.restore();
     }
 }
